@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  
+  <meta charset="utf-8">
+  <script>
+    var pbid = 'aa4c97a1795640648a033c3f89858fce';
+		var markup = "<scr" + "ipt src='//player.ooyala.com/core/"+pbid+"'/></scr" + "ipt>";
+		document.write(markup);
+
+
+  </script>
+  
+</head>
+<body>
+
+    OOYALA Player 
+
+    <!-- The DIV elements specify the layout for the content elements. -->
+  <div id='container' style='width:600px;height:400px'></div>
+	
+  <script>
+    var pbid = 'aa4c97a1795640648a033c3f89858fce';
+	var ec = 'FlbjBsYjE66C2XRiXanZ8dBA3LBJhtio';
+	var pcode = 'UzM2oyOhgtCq_z4DZDUqQadISueB';
+		
+		var playerParam = {
+		  "pcode": pcode,
+		  "playerBrandingId": pbid,
+		};
+
+
+		function removeInlineStyles(){
+			console.log("Going to remove inline styles from volume bar");	
+			//remove inline style
+			//
+			$('.oo-volume-bar').each(function( index , element  ){
+				$(element).removeAttr("style");
+			});
+		
+		}
+
+		OO.ready(function() {
+		  window.pp = OO.Player.create('container', ec, playerParam);
+		  setTimeout(removeInlineStyles, 3000)
+		});
+  </script>
+
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+<HTML>
+
+
+<HEAD>
+	
+	<!-- Include plugins necessary for player -->
+<!-- core provides basic player support-->
+<script src="//player.ooyala.com/static/v4/production/core.min.js"></script>
+<!-- bit_wrapper supports HLS-everywhere and Dash support -->
+<script src="//player.ooyala.com/static/v4/production/video-plugin/bit_wrapper.min.js"></script>
+<!-- main_html5 support browser supported video formats -->
+<script src="//player.ooyala.com/static/v4/production/video-plugin/main_html5.min.js"></script>
+<!-- osmf_flash supports Flash based video playback using Adobe's OSMF library -->
+<script src="//player.ooyala.com/static/v4/production/video-plugin/osmf_flash.min.js"></script>
+<!-- For HD2 stream format playback-->
+<script src="//player.ooyala.com/static/v4/production/video-plugin/akamaiHD_flash.min.js"></script>
+<!-- For using YouTube player for playback-->
+<script src="//player.ooyala.com/static/v4/production/video-plugin/youtube.min.js"></script>
+<!-- html5-skin supports the basic player UI -->
+<!-- Player UI Definitions-->
+<script src="//player.ooyala.com/static/v4/production/skin-plugin/html5-skin.min.js"></script>
+
+<!-- core provides basic player support-->
+<script src="//player.ooyala.com/static/v4/stable/4.14.8/other-plugin/playlists.js"></script>
+
+<script type="text/javascript" src="https://player.ooyala.com/v3/6e70701ad0d34320ac5cf804c910c622"></script>
+
+
+<!-- Include the style sheet used by the player -->
+<link rel="stylesheet" href="//player.ooyala.com/static/v4/production/skin-plugin/html5-skin.min.css"/>
+<!-- Player parameter modify some basic player behaviors and looks -->
+<script type="text/javascript">
+var ooyalaPlayer;
+
+OO.ready(function() {
+    var playerConfiguration = {
+        playlistsPlugin: {"data":["85556fb086ae42adb67e6e666d195d6a"]},
+        autoplay: true,
+        loop: false,
+        height: 377,
+        width: 800,
+        useFirstVideoFromPlaylist: true,
+	orientation: "vertical",
+        podType: "scrolling",
+        position: "right",
+        thumbnailsSize: 200,
+        thumbnailsSpacing: 5,
+        useFirstVideoFromPlaylist: true,
+        wrapperFontSize: 8,
+    };
+
+    ooyalaPlayer = OO.Player.create('playerContainer', '', playerConfiguration);
+});
+
+</script>
+</HEAD>
+	
+	<BODY> 
+
+		<div id="playerContainer" ></div>
+
+	</BODY>
+
+</HTML>

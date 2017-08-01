@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  
+  <meta charset="utf-8">
+  <script>
+	function getInternetExplorerVersion() {
+		var rv = -1;
+		if (navigator.appName == 'Microsoft Internet Explorer') {
+			var ua = navigator.userAgent;
+			var re = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+			if (re.exec(ua) != null)
+			rv = parseFloat(RegExp.$1);
+		}
+		return rv;
+	} 
+
+	var ret = getInternetExplorerVersion();
+    var queryParams = window.location.href;
+    var pbid = 'aa4c97a1795640648a033c3f89858fce';
+	var pbidv3 = '7eaddbdc2604f3d87c4a794c8260910';
+	var platformv3 = "flash-priority";
+	
+	if(ret != -1 && ret <=10)
+	{
+		var markup = "<scr" + "ipt src='//player.ooyala.com/v3/"+pbidv3+"?platform="+platformv3+"'/></scr" + "ipt>";
+		document.write(markup);
+		
+	}
+	else
+	{
+		var markup = "<scr" + "ipt src='//player.ooyala.com/core/"+pbid+"'/></scr" + "ipt>";
+		document.write(markup);
+
+	}
+	
+  </script>
+
+
+  
+</head>
+<body>
+
+    OOYALA Player 
+
+    <!-- The DIV elements specify the layout for the content elements. -->
+  <div id='container' style='width:280px;'></div>
+	
+  <script>
+	var ret = getInternetExplorerVersion();
+    var queryParams = window.location.href;
+    var pbid = 'aa4c97a1795640648a033c3f89858fce';
+	var pbidv3 = '7eaddbdc2604f3d87c4a794c8260910';
+	var ec = 'FlbjBsYjE66C2XRiXanZ8dBA3LBJhtio';
+	var pcode = 'UzM2oyOhgtCq_z4DZDUqQadISueB';
+		
+	if(ret != -1 && ret <=10)
+	{	  
+
+	  // Surround everything with OO.ready to make sure the script has
+	  // loaded and initialized.    
+	  
+	  OO.ready(
+		  function() 
+		  {
+			var videoPlayer = OO.Player.create(
+			  'container',
+			  ec, 
+			  {
+				// add the embedded player parameters here
+				autoplay: true
+			  }
+			);
+						
+		  }
+	  );
+	 
+	  
+	}
+	else
+	{
+		function onCreate(player) { player.mb.subscribe("*" , 'forced_volume_color', function(eventName) { 
+		$( '.oo-volume-bar' ).removeAttr( 'style' );
+		$( '.oo-volume-bar.oo-on' ).attr('style','background-color:#ffffff');
+		$('video').attr('playsinline', '');
+		} );}
+
+		var playerParam = {
+		  "pcode": pcode,
+		  "playerBrandingId": pbid,
+		  "skin" :{
+			
+		  },
+		  initialVolume : 50,
+		  autoplay : true, 
+		  onCreate : window.onCreate
+		};
+
+		OO.ready(function() {
+		  window.pp = OO.Player.create('container', ec, playerParam);
+		  'use strict';
+
+			var video = document.querySelector('video');
+
+			var promise = video.play();
+
+			// promise won’t be defined in browsers that don't support promisified play()
+			if (promise === undefined) {
+				console.log('Promisified video play() not supported');
+			} else {
+				promise.then(function() {
+					console.log('Video playback successfully initiated, returning a promise');
+				}).catch(function(error) {
+					console.log('Error initiating video playback: ', error);
+				});
+			}
+
+			video.onloadedmetadata = function() {
+				var fileName = this.currentSrc.replace(/^.*[\\\/]/, '');
+				document.querySelector('#videoSrc').innerHTML = 'Playing video: ' + fileName;
+			};
+		});
+
+
+	}
+  </script>
+
+
+</body>
+</html>

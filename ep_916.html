@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+<style>
+
+.oo-volume-bar{
+
+background-color:red !important;
+height:17px !important;
+}
+.oo-volume-bar.oo-on{
+background-color:green !important;
+}
+
+</style>
+
+		<meta charset="utf-8">
+		<script>
+function getInternetExplorerVersion() {
+	var rv = -1;
+	if (navigator.appName == 'Microsoft Internet Explorer') {
+		var ua = navigator.userAgent;
+		var re = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+		if (re.exec(ua) != null)
+			rv = parseFloat(RegExp.$1);
+	}
+	return rv;
+} 
+
+var pbid = 'aa4c97a1795640648a033c3f89858fce';
+var ec='QyYmRtYjE6wCwiCWdn-4MPNwOT5SP9eQ'
+var pcode = 'UzM2oyOhgtCq_z4DZDUqQadISueB';
+
+	var markup = "<scr" + "ipt src='//player.ooyala.com/core/"+pbid+"'/></scr" + "ipt>";
+	document.write(markup);
+
+
+		</script>
+
+
+		<script>
+
+function onCreate(player) { player.mb.subscribe(OO.EVENTS.INITIAL_PLAY , 'removeInlineStyle', function(eventName) {
+	$( '.oo-volume-bar' ).removeAttr( 'style' );
+} );}
+
+var playerParam = {
+	"pcode": pcode,
+	"playerBrandingId": pbid,
+};
+
+OO.ready(function() {
+	window.pp = OO.Player.create('container', ec, playerParam);
+});
+
+
+		</script>
+	</head>
+	<body>
+
+		OOYALA Player 
+
+		<!-- The DIV elements specify the layout for the content elements. -->
+		<div id='container' ></div>
+		<!--div id='container' style='width:414px;height:720px'></div-->
+
+	</body>
+</html>

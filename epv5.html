@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  
+  <meta charset="utf-8">
+  <script>
+    var pbid = 'aa4c97a1795640648a033c3f89858fce';
+		var markup = "<scr" + "ipt src='//localhost:8081/"+pbid+"'/></scr" + "ipt>";
+		document.write(markup);
+
+  </script>
+
+</head>
+<body>
+
+    OOYALA Player 
+
+    <!-- The DIV elements specify the layout for the content elements. -->
+  <div id='container' style='width:640px;height:360px'></div>
+	
+  <script>
+    var pbid = 'aa4c97a1795640648a033c3f89858fce';
+	var ec = 'FlbjBsYjE66C2XRiXanZ8dBA3LBJhtio';
+	var pcode = 'UzM2oyOhgtCq_z4DZDUqQadISueB';
+		
+		function onCreate(player) { player.mb.subscribe("*" , 'forced_volume_color', function(eventName) { 
+		$( '.oo-volume-bar' ).removeAttr( 'style' );
+		$( '.oo-volume-bar.oo-on' ).attr('style','background-color:#ffffff');
+		} );}
+		
+		var playerParam = {
+		  "pcode": pcode,
+		  "playerBrandingId": pbid,
+		  "skin" :{
+		  
+		  },
+		  onCreate : window.onCreate
+		};
+		
+		OO.ready(function() {
+		  window.pp = OO.Player.create('container', ec, playerParam);
+		});
+		
+	 
+  </script>
+
+</body>
+</html>
