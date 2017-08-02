@@ -1,7 +1,220 @@
-<HTML>
+<!DOCTYPE html>
+<html style="padding:0; margin:0; width:100%; height:100%; overflow:hidden">
+<head>
+  <meta charset="utf-8">
+  
+  <script>
+	function getInternetExplorerVersion() {
+		var rv = -1;
+		if (navigator.appName == 'Microsoft Internet Explorer') {
+			var ua = navigator.userAgent;
+			var re = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+			if (re.exec(ua) != null)
+			rv = parseFloat(RegExp.$1);			
+		}
+		return rv;
+	} 
 
+	var ret = getInternetExplorerVersion();
+    var queryParams = window.location.href;
+    //var pbid = queryParams.match(/pbid=([^&]*)/)[1];
+    var pbid = "aa4c97a1795640648a033c3f89858fce";
+    var pbidv3Param = queryParams.match(/pbidv3=([^&]*)/);
+    //var pbidv3 = (pbidv3Param ? pbidv3Param[1] : pbid);
+    var pbidv3 = "7eaddbdc2604f3d87c4a794c8260910";
+	var platformv3Param = queryParams.match(/platformv3=([^&]*)/);
+	var platformv3 = (platformv3Param ? platformv3Param[1] : "flash");
+	
+	//alert(pbidv3Param);
+	if(ret != -1 && ret <=10)
+	{
+		var markup = "<scr" + "ipt src='//player.ooyala.com/v3/"+pbidv3+"?platform="+platformv3+"'/></scr" + "ipt>";
+		document.write(markup);
+		
+	}
+	else
+	{
+		var markup = "<scr" + "ipt src='//player.ooyala.com/core/"+pbid+"'/></scr" + "ipt>";
+		document.write(markup);
 
-<iframe width="640" height="360" src="http://player.ooyala.com/static/v4/stable/latest/skin-plugin/iframe.html?pbid=aa4c97a1795640648a033c3f89858fce&pcode=UzM2oyOhgtCq_z4DZDUqQadISueB&ec=V3bnhvYjE6G6IUs5kgoDlOeEtdVcj71D" frameborder="0" allowfullscreen></iframe>
+	}
+	
 
+  </script>
+</head>
 
-	</HTML>
+<body style="padding:0; margin:0; width:100%; height:100%; overflow:hidden">
+  <div id='container' style='width:100%; height:100%;'></div>
+	
+  <script>
+	var ret = getInternetExplorerVersion();
+    var queryParams = window.location.href;
+      //var pbid = queryParams.match(/pbid=([^&]*)/)[1];
+    var pbid = "aa4c97a1795640648a033c3f89858fce";
+    var pbidv3Param = queryParams.match(/pbidv3=([^&]*)/);
+	var pbidv3 = (pbidv3Param ? pbidv3Param[1] : pbid);
+	var ec = queryParams.match(/ec=([^&]*)/)[1];
+      //var pcode = queryParams.match(/pcode=([^&]*)/)[1];
+	var pcode = "UzM2oyOhgtCq_z4DZDUqQadISueB";
+
+	//alert(markup);
+
+	if(ret != -1 && ret <=10)
+	{	  
+	  var playerParams = {};
+      var queryTokens = queryParams.split(/[\?\&]/);
+      for (var i=0; i<queryTokens.length; i++) {
+        try {
+          var match = queryTokens[i].match(/^options\[([^\]]+)\]=(.+)/);
+          if (match) {
+            var currentLevel = playerParams;
+            var keySplits = match[1].split(".");
+            while (keySplits.length > 1) {
+              var key = keySplits.shift();
+              if (currentLevel[key] === undefined)
+                currentLevel[key] = {};
+              currentLevel = currentLevel[key];
+            }
+            if (typeof currentLevel === 'string')
+              throw("Ooyala Exception: Invalid query parameter");
+
+            var paramValue = decodeURIComponent(match[2]);
+            if (paramValue.toLowerCase() === "true")
+              currentLevel[keySplits[0]] = true;
+            else if (paramValue.toLowerCase() === "false")
+              currentLevel[keySplits[0]] = false;
+            else if (paramValue[0] === "[" &&
+              paramValue[paramValue.length -1] === "]")
+              currentLevel[keySplits[0]] = JSON.parse(decodeURIComponent(match[2]));
+            else
+              currentLevel[keySplits[0]] = decodeURIComponent(match[2]);
+          }
+        }
+        catch (e) {
+          //Tell them it's an error coming from us and not some native-looking exception
+          throw("Ooyala Exception: Invalid query parameter");
+        }
+      }
+	  
+	  var docUrl = undefined;
+	  if(!!queryParams.match(/docUrl=([^&]*)/)) {
+		docUrl = queryParams.match(/docUrl=([^&]*)/)[1];
+	  }
+	  if(!!docUrl) {
+		playerParams["docUrl"] = decodeURIComponent(docUrl);
+		if (playerParams["flashParams"] === undefined)
+		  playerParams["flashParams"] = {};
+		playerParams["flashParams"]["docUrl"] = decodeURIComponent(docUrl);
+	  }
+	  	  
+	  // Surround everything with OO.ready to make sure the script has
+	  // loaded and initialized.        
+	  var markup = "<scr" + "ipt type='text/javascript' charset='utf-8'>";
+	  var options = "";
+	  markup += "OO.ready(";
+	  markup += " function(){";
+	  markup += "  var videoPlayer = OO.Player.create(";
+	  markup += "   'container', '" + ec + "'";
+	  markup += "   ,{";
+	  markup += "onCreate:function(player) { window.messageBus01 = player.mb;}";
+		
+	  for(var key in playerParams){
+        markup += "," + key + ":" + playerParams[key];
+	  }
+	  markup += "   }";
+	  markup += " );";
+	  if(playerParams["initialVolume"]!=undefined)
+	  {
+		markup += "window.messageBus01.subscribe(OO.EVENTS.PLAYBACK_READY, 'exampleSuscriberID01',function(eventName) {videoPlayer.setVolume('"+playerParams["initialVolume"]+"')});";
+	  }
+	  markup += "});";
+	  markup += "</scr" + "ipt>";
+	  document.write(markup);
+	 
+	  
+	}
+	else
+	{
+		function onCreate(player) { player.mb.subscribe("*" , 'forced_volume_color', function(eventName) { 
+		//$( '.oo-volume-bar' ).removeAttr( 'style' );
+		//$( '.oo-volume-bar.oo-on' ).attr('style','background-color:#ffffff');
+		//$( '.oo-player-container' ).attr('style','min-width:280px');
+		//$( '.oo-volume-bar.oo-on' ).attr('style','height:15px');
+		//$( '.oo-volume-bar' ).attr('style','width:4px');
+		//$( '.oo-player-container .oo-xsmall .oo-volume-bar.oo-on' ).style.setProperty( 'height', '15px', 'important' );
+		//$( '.oo-player-container .oo-xsmall .oo-volume-bar').css("cssText", "width: 4px !important;");
+		} );}
+
+		var playerParam = {
+		  "pcode": pcode,
+		  "playerBrandingId": pbid,
+		  "skin": {
+			"config": ""
+		   },
+		  onCreate : window.onCreate
+
+		};
+
+		// Parse docUrl
+		var docUrl = undefined;
+		if (!!queryParams.match(/docUrl=([^&]*)/)) {
+		  playerParam["docUrl"] = decodeURIComponent(queryParams.match(/docUrl=([^&]*)/)[1]);
+		} else if (document.referrer) {
+		  playerParam["docUrl"] = document.referrer;
+		} else {
+		  console.log("iframe.html - document.referrer was not set");
+		}
+
+		// Parse standard Ooyala player runtime options
+		var queryTokens = queryParams.split(/[\?\&]/);
+		for (var i=0; i<queryTokens.length; i++) {
+		  try {
+			var match = queryTokens[i].match(/^options\[([^\]]+)\]=(.+)/);
+			if (match) {
+			  var currentLevel = playerParam;
+			  var keySplits = match[1].split(".");
+			  while (keySplits.length > 1) {
+				var key = keySplits.shift();
+				if (currentLevel[key] === undefined)
+				  currentLevel[key] = {};
+				currentLevel = currentLevel[key];
+			  }
+			  if (typeof currentLevel !== 'object')
+				throw("Exception: Invalid query parameter");
+
+			  var paramValue = decodeURIComponent(match[2]);
+			  if (paramValue.toLowerCase() === "true")
+				currentLevel[keySplits[0]] = true;
+			  else if (paramValue.toLowerCase() === "false")
+				currentLevel[keySplits[0]] = false;
+			  else if (paramValue[0] === "[" &&
+				paramValue[paramValue.length -1] === "]")
+				currentLevel[keySplits[0]] = JSON.parse(decodeURIComponent(match[2]));
+			  else
+				currentLevel[keySplits[0]] = decodeURIComponent(match[2]);
+			}
+		  }
+		  catch (e) {
+			throw("Exception: Invalid query parameter");
+		  }
+		}
+
+		OO.ready(function() {
+		  window.pp = OO.Player.create('container', ec, playerParam);
+		});
+	}
+  </script>
+<style type="text/css">
+     .oo-player-container .oo-xsmall .oo-volume-bar.oo-on {
+         height: 15px !important;
+     }
+     .oo-player-container .oo-xsmall .oo-volume-bar{
+         width: 4px !important;
+      }
+	  
+	 .oo-player-container{
+	 min-width:280px !important;
+	 }
+ </style>
+</body>
+</html>
