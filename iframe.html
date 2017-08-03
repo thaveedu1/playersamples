@@ -9,6 +9,7 @@
 		var rv = -1;
 		if (navigator.appName == 'Microsoft Internet Explorer') {
 			var ua = navigator.userAgent;
+			console.log(ua);
 			var re = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
 			if (re.exec(ua) != null)
 			rv = parseFloat(RegExp.$1);			
@@ -26,8 +27,8 @@
 	var platformv3Param = queryParams.match(/platformv3=([^&]*)/);
 	var platformv3 = (platformv3Param ? platformv3Param[1] : "flash");
 	
-	//alert(pbidv3Param);
-	if(ret != -1 && ret <=11)
+	console.log(ret);
+	if(ret != -1 && ret <=10)
 	{
 		var markup = "<scr" + "ipt src='//player.ooyala.com/v3/"+pbidv3+"?platform="+platformv3+"'/></scr" + "ipt>";
 		document.write(markup);
