@@ -28,7 +28,7 @@
 	var platformv3 = (platformv3Param ? platformv3Param[1] : "flash");
 	
 	console.log(ret);
-	if(ret != -1 && ret <=10)
+	if(ret == -1 || ret <=10)
 	{
 		var markup = "<scr" + "ipt src='//player.ooyala.com/v3/"+pbidv3+"?platform="+platformv3+"'/></scr" + "ipt>";
 		document.write(markup);
