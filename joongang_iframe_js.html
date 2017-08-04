@@ -47,10 +47,6 @@ function IeVersion() {
 }
 
 var ie = IeVersion();
-document.write("IsIE: " + ie.IsIE + "</br>");
-document.write("TrueVersion: " + ie.TrueVersion + "</br>");
-document.write("ActingVersion: " + ie.ActingVersion + "</br>");
-document.write("CompatibilityMode: " + ie.CompatibilityMode + "</br>");
 
 function myFunction() {
     var x = document.createElement("IFRAME");
@@ -64,7 +60,15 @@ function myFunction() {
     document.body.appendChild(x2);
 }
 
+(function(){
+
+document.write("IsIE: " + ie.IsIE + "</br>");
+document.write("TrueVersion: " + ie.TrueVersion + "</br>");
+document.write("ActingVersion: " + ie.ActingVersion + "</br>");
+document.write("CompatibilityMode: " + ie.CompatibilityMode + "</br>");
 myFunction();
+
+})();
 </script>
 
 </head>
