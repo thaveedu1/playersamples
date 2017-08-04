@@ -72,9 +72,11 @@ document.write("CompatibilityMode: " + ie.CompatibilityMode + "</br>");
     var pbidv3 = "7eaddbdc2604f3d87c4a794c8260910";
 	var platformv3Param = queryParams.match(/platformv3=([^&]*)/);
 	var platformv3 = (platformv3Param ? platformv3Param[1] : "flash");
+	var ieversionParam = queryParams.match(/ieversion=([^&]*)/);
+	var ieversion  = (ieversionParam ? ieversionParam[1] : "-1");
 	
 	console.log(ret);
-	if(ie.TrueVersion != -1 && ie.TrueVersion <=10)
+	if(ieversion != -1 && ieversion <=10)
 	{
 		var markup = "<scr" + "ipt src='//player.ooyala.com/v3/"+pbidv3+"?platform="+platformv3+"'/></scr" + "ipt>";
 		document.write(markup);
