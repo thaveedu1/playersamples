@@ -74,7 +74,7 @@ document.write("CompatibilityMode: " + ie.CompatibilityMode + "</br>");
 	var platformv3 = (platformv3Param ? platformv3Param[1] : "flash");
 	
 	console.log(ret);
-	if(ret == -1 || ret <=10)
+	if(ie.TrueVersion != -1 && ie.TrueVersion <=10)
 	{
 		var markup = "<scr" + "ipt src='//player.ooyala.com/v3/"+pbidv3+"?platform="+platformv3+"'/></scr" + "ipt>";
 		document.write(markup);
