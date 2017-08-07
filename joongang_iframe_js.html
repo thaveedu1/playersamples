@@ -2,8 +2,15 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<script>
 
+(function(){
+var meta = document.createElement('meta');
+meta.httpEquiv = "X-UA-Compatible";
+meta.content = "IE=edge";
+document.getElementsByTagName('head')[0].appendChild(meta);
+}());
+	</script>
  <style>
     <link rel="stylesheet" type="text/css" href="../Common/CSS/ooyala_joongang.css"/>
  </style>
@@ -46,31 +53,69 @@ function IeVersion() {
     return value;
 }
 
-var ie = IeVersion();
-
-function myFunction() {
-    var x = document.createElement("IFRAME");
-    x.setAttribute("src", "http://joins.com/iframe.html?pcode=UzM2oyOhgtCq_z4DZDUqQadISueB&pbid=aa4c97a1795640648a033c3f89858fce&ec=ZlM2VyYjE60L1he2pem_qdyCDHWtf6_u&ieversion="+ie.TrueVersion);
-    document.body.appendChild(x);
-    var x1 = document.createElement("IFRAME");
-    x1.setAttribute("src", "http://joins.com/iframe.html?pcode=UzM2oyOhgtCq_z4DZDUqQadISueB&pbid=aa4c97a1795640648a033c3f89858fce&ec=hmOGNyYjE6BzTbo8cr11umSFitV1ui-d&ieversion="+ie.TrueVersion);
-    document.body.appendChild(x1);
-    var x2 = document.createElement("IFRAME");
-    x2.setAttribute("src", "http://joins.com/iframe.html?pbid=aa4c97a1795640648a033c3f89858fce&pcode=UzM2oyOhgtCq_z4DZDUqQadISueB&ec=Y5MjVxYjE6qUX3156G0WdWWvGrw9E9pW");
-    document.body.appendChild(x2);
-}
 
 (function(){
 
+var ie = IeVersion();
 document.write("IsIE: " + ie.IsIE + "</br>");
 document.write("TrueVersion: " + ie.TrueVersion + "</br>");
 document.write("ActingVersion: " + ie.ActingVersion + "</br>");
 document.write("CompatibilityMode: " + ie.CompatibilityMode + "</br>");
-myFunction();
+    var queryParams = window.location.href;
+        var pbid = 'aa4c97a1795640648a033c3f89858fce';
+	var pbidv3 = '7eaddbdc2604f3d87c4a794c8260910';
+        var pcode = 'UzM2oyOhgtCq_z4DZDUqQadISueB';
+	var platformv3 = "flash";
+	
+	if(ie.TrueVersion != 0 && ie.TrueVersion <=10)
+	{
+		var markup = "<scr" + "ipt src='//player.ooyala.com/v3/"+pbidv3+"?platform="+platformv3+"'/></scr" + "ipt>";
+		pbid=pbidv3;
+		document.write(markup);
+		
+	}
+	else
+	{
+		var markup = "<scr" + "ipt src='//player.ooyala.com/core/"+pbid+"'/></scr" + "ipt>";
+		document.write(markup);
+
+	}
+
+
+	var playerParam = {
+                  "pcode": pcode,
+                  "playerBrandingId": pbid,
+                };
+
+	window.onload = function(e){
+                OO.ready(function() {
+		  var ec = "ZlM2VyYjE60L1he2pem_qdyCDHWtf6_u";
+        	  var ec1 = 'FlbjBsYjE66C2XRiXanZ8dBA3LBJhtio';
+		  var ec2='Y5MjVxYjE6qUX3156G0WdWWvGrw9E9pW';
+                  window.pp = OO.Player.create('container', ec, playerParam);
+                  window.pp = OO.Player.create('container1', ec1, playerParam);
+                  window.pp = OO.Player.create('container2', ec2, playerParam);
+                  window.pp = OO.Player.create('container3', ec2, playerParam);
+                });
+
+	}
 
 })();
+
+
+
+
+
 </script>
 
 </head>
 <body>
+<h2>Iframe-VOD1</h2>
+<div id="container" style="max-width:280px;max-height:160px"></div>
+<h2>Iframe-VOD2</h2>
+<div id="container1" style="max-width:280px;max-height:160px"></div>
+<h2>LIVE</h2>
+<div id="container2" style="max-width:280px;max-height:160px"></div>
+<h2>LIVE</h2>
+<div id="container3" style="max-width:280px;max-height:160px"></div>
 </body>
