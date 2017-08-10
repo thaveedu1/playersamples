@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+    </style>
+    <script>
+
+        (function () {
+            var meta = document.createElement('meta');
+            meta.httpEquiv = "X-UA-Compatible";
+            meta.content = "IE=edge";
+            document.getElementsByTagName('head')[0].appendChild(meta);
+        }());
+    </script>
+
+    <script>
+
+        function IeVersion() {
+            //Set defaults
+            var value = {
+                IsIE: false,
+                TrueVersion: 0,
+                ActingVersion: 0,
+                CompatibilityMode: false
+            };
+
+            //Try to find the Trident version number
+            var trident = navigator.userAgent.match(/Trident\/(\d+)/);
+            if (trident) {
+                value.IsIE = true;
+                //Convert from the Trident version number to the IE version number
+                value.TrueVersion = parseInt(trident[1], 10) + 4;
+            }
+
+            //Try to find the MSIE number
+            var msie = navigator.userAgent.match(/MSIE (\d+)/);
+            if (msie) {
+                value.IsIE = true;
+                //Find the IE version number from the user agent string
+                value.ActingVersion = parseInt(msie[1]);
+            } else {
+                //Must be IE 11 in "edge" mode
+                value.ActingVersion = value.TrueVersion;
+            }
+
+            //If we have both a Trident and MSIE version number, see if they're different
+            if (value.IsIE && value.TrueVersion > 0 && value.ActingVersion > 0) {
+                //In compatibility mode if the trident number doesn't match up with the MSIE number
+                value.CompatibilityMode = value.TrueVersion != value.ActingVersion;
+            }
+            return value;
+        }
+
+
+        (function () {
+
+            var ie = IeVersion();
+            //document.write("IsIE: " + ie.IsIE + "</br>");
+            //document.write("TrueVersion: " + ie.TrueVersion + "</br>");
+            //document.write("ActingVersion: " + ie.ActingVersion + "</br>");
+            //document.write("CompatibilityMode: " + ie.CompatibilityMode + "</br>");
+            var queryParams = window.location.href;
+            var pbid = 'aa4c97a1795640648a033c3f89858fce';
+            var pbidv3 = '7eaddbdc2604f3d87c4a794c8260910';
+            var pcode = 'UzM2oyOhgtCq_z4DZDUqQadISueB';
+            var platformv3 = "flash";
+            var ec = queryParams.match(/ec=([^&]*)/)[1];
+
+		if (ie.TrueVersion != 0 && ie.TrueVersion <= 10) {
+                var markup = "<scr" + "ipt src='//player.ooyala.com/v3/" + pbidv3 + "?platform=" + platformv3 + "'/></scr" + "ipt>";
+                pbid = pbidv3;
+                document.write(markup);
+
+            }
+            else {
+                var markup = "<scr" + "ipt src='//player.ooyala.com/core/" + pbid + "'/></scr" + "ipt>";
+                document.write(markup);
+
+            }
+		if (ie.TrueVersion != 0 && ie.TrueVersion <= 10) {
+	  var playerParams = {};
+      var queryTokens = queryParams.split(/[\?\&]/);
+      for (var i=0; i<queryTokens.length; i++) {
+        try {
+          var match = queryTokens[i].match(/^options\[([^\]]+)\]=(.+)/);
+          if (match) {
+            var currentLevel = playerParams;
+            var keySplits = match[1].split(".");
+            while (keySplits.length > 1) {
+              var key = keySplits.shift();
+              if (currentLevel[key] === undefined)
+                currentLevel[key] = {};
+              currentLevel = currentLevel[key];
+            }
+            if (typeof currentLevel === 'string')
+              throw("Ooyala Exception: Invalid query parameter");
+
+            var paramValue = decodeURIComponent(match[2]);
+            if (paramValue.toLowerCase() === "true")
+              currentLevel[keySplits[0]] = true;
+            else if (paramValue.toLowerCase() === "false")
+              currentLevel[keySplits[0]] = false;
+            else if (paramValue[0] === "[" &&
+              paramValue[paramValue.length -1] === "]")
+              currentLevel[keySplits[0]] = JSON.parse(decodeURIComponent(match[2]));
+            else
+              currentLevel[keySplits[0]] = decodeURIComponent(match[2]);
+          }
+        }
+        catch (e) {
+          //Tell them it's an error coming from us and not some native-looking exception
+          throw("Ooyala Exception: Invalid query parameter");
+        }
+      }
+	  
+	  var docUrl = undefined;
+	  if(!!queryParams.match(/docUrl=([^&]*)/)) {
+		docUrl = queryParams.match(/docUrl=([^&]*)/)[1];
+	  }
+	  if(!!docUrl) {
+		playerParams["docUrl"] = decodeURIComponent(docUrl);
+		if (playerParams["flashParams"] === undefined)
+		  playerParams["flashParams"] = {};
+		playerParams["flashParams"]["docUrl"] = decodeURIComponent(docUrl);
+	  }
+	  	  
+	  // Surround everything with OO.ready to make sure the script has
+	  // loaded and initialized.        
+	  var markup = "<scr" + "ipt type='text/javascript' charset='utf-8'>";
+	  var options = "";
+	  markup += "OO.ready(";
+	  markup += " function(){";
+	  markup += "  var videoPlayer = OO.Player.create(";
+	  markup += "   'container', '" + ec + "'";
+	  markup += "   ,{";
+	  markup += "onCreate:function(player) { window.messageBus01 = player.mb;}";
+		
+	  for(var key in playerParams){
+        markup += "," + key + ":" + playerParams[key];
+	  }
+	  markup += "   }";
+	  markup += " );";
+	  if(playerParams["initialVolume"]!=undefined)
+	  {
+		markup += "window.messageBus01.subscribe(OO.EVENTS.PLAYBACK_READY, 'exampleSuscriberID01',function(eventName) {videoPlayer.setVolume('"+playerParams["initialVolume"]+"')});";
+	  }
+	  markup += "});";
+	  markup += "</scr" + "ipt>";
+	  document.write(markup);
+	 
+	  
+	}
+	else
+	{
+		function onCreate(player) { player.mb.subscribe("*" , 'forced_volume_color', function(eventName) { 
+		//$( '.oo-volume-bar' ).removeAttr( 'style' );
+		//$( '.oo-volume-bar.oo-on' ).attr('style','background-color:#ffffff');
+		//$( '.oo-player-container' ).attr('style','min-width:280px');
+		//$( '.oo-volume-bar.oo-on' ).attr('style','height:15px');
+		//$( '.oo-volume-bar' ).attr('style','width:4px');
+		//$( '.oo-player-container .oo-xsmall .oo-volume-bar.oo-on' ).style.setProperty( 'height', '15px', 'important' );
+		//$( '.oo-player-container .oo-xsmall .oo-volume-bar').css("cssText", "width: 4px !important;");
+		} );}
+
+		var playerParam = {
+		  "pcode": pcode,
+		  "playerBrandingId": pbid,
+		  "skin": {
+			"config": ""
+		   },
+		  onCreate : window.onCreate
+
+		};
+
+		// Parse docUrl
+		var docUrl = undefined;
+		if (!!queryParams.match(/docUrl=([^&]*)/)) {
+		  playerParam["docUrl"] = decodeURIComponent(queryParams.match(/docUrl=([^&]*)/)[1]);
+		} else if (document.referrer) {
+		  playerParam["docUrl"] = document.referrer;
+		} else {
+		  console.log("iframe.html - document.referrer was not set");
+		}
+
+		// Parse standard Ooyala player runtime options
+		var queryTokens = queryParams.split(/[\?\&]/);
+		for (var i=0; i<queryTokens.length; i++) {
+		  try {
+			var match = queryTokens[i].match(/^options\[([^\]]+)\]=(.+)/);
+			if (match) {
+			  var currentLevel = playerParam;
+			  var keySplits = match[1].split(".");
+			  while (keySplits.length > 1) {
+				var key = keySplits.shift();
+				if (currentLevel[key] === undefined)
+				  currentLevel[key] = {};
+				currentLevel = currentLevel[key];
+			  }
+			  if (typeof currentLevel !== 'object')
+				throw("Exception: Invalid query parameter");
+
+			  var paramValue = decodeURIComponent(match[2]);
+			  if (paramValue.toLowerCase() === "true")
+				currentLevel[keySplits[0]] = true;
+			  else if (paramValue.toLowerCase() === "false")
+				currentLevel[keySplits[0]] = false;
+			  else if (paramValue[0] === "[" &&
+				paramValue[paramValue.length -1] === "]")
+				currentLevel[keySplits[0]] = JSON.parse(decodeURIComponent(match[2]));
+			  else
+				currentLevel[keySplits[0]] = decodeURIComponent(match[2]);
+			}
+		  }
+		  catch (e) {
+			throw("Exception: Invalid query parameter");
+		  }
+		}
+            window.onload = function (e) {
+                OO.ready(function () {
+                    window.pp = OO.Player.create('container', ec, playerParam);
+                });
+
+            }
+
+	}
+
+
+           /* var playerParam = {
+                "pcode": pcode,
+                "playerBrandingId": pbid,
+            };
+
+            window.onload = function (e) {
+                OO.ready(function () {
+                    window.pp = OO.Player.create('container', ec, playerParam);
+                });
+
+            }
+	*/
+        })();
+
+
+
+
+
+    </script>
+    <style type="text/css">
+        .oo-player-container .oo-xsmall .oo-volume-bar.oo-on {
+            height: 15px !important;
+        }
+
+        .oo-player-container .oo-xsmall .oo-volume-bar {
+            width: 4px !important;
+        }
+
+        .oo-player-container {
+            min-width: 280px !important;
+        }
+    </style>
+</head>
+<body style="padding:0; margin:0; width:100%; height:100%; overflow:hidden">
+    <div id='container' style='width:100%; height:100%;'></div>
+</body>
+</html>
