@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<script>
+
+(function(){
+var meta = document.createElement('meta');
+meta.httpEquiv = "X-UA-Compatible";
+meta.content = "IE=edge";
+document.getElementsByTagName('head')[0].appendChild(meta);
+}());
+	</script>
+ <style>
+    <link rel="stylesheet" type="text/css" href="../Common/CSS/ooyala_joongang.css"/>
+ </style>
+ 
+<script>
+
+function IeVersion() {
+    //Set defaults
+    var value = {
+        IsIE: false,
+        TrueVersion: 0,
+        ActingVersion: 0,
+        CompatibilityMode: false
+    };
+
+    //Try to find the Trident version number
+    var trident = navigator.userAgent.match(/Trident\/(\d+)/);
+    if (trident) {
+        value.IsIE = true;
+        //Convert from the Trident version number to the IE version number
+        value.TrueVersion = parseInt(trident[1], 10) + 4;
+    }
+
+    //Try to find the MSIE number
+    var msie = navigator.userAgent.match(/MSIE (\d+)/);
+    if (msie) {
+        value.IsIE = true;
+        //Find the IE version number from the user agent string
+        value.ActingVersion = parseInt(msie[1]);
+    } else {
+        //Must be IE 11 in "edge" mode
+        value.ActingVersion = value.TrueVersion;
+    }
+
+    //If we have both a Trident and MSIE version number, see if they're different
+    if (value.IsIE && value.TrueVersion > 0 && value.ActingVersion > 0) {
+        //In compatibility mode if the trident number doesn't match up with the MSIE number
+        value.CompatibilityMode = value.TrueVersion != value.ActingVersion;
+    }
+    return value;
+}
+
+
+(function(){
+
+var ie = IeVersion();
+document.write("IsIE: " + ie.IsIE + "</br>");
+document.write("TrueVersion: " + ie.TrueVersion + "</br>");
+document.write("ActingVersion: " + ie.ActingVersion + "</br>");
+document.write("CompatibilityMode: " + ie.CompatibilityMode + "</br>");
+    var queryParams = window.location.href;
+        var pbid = 'aa4c97a1795640648a033c3f89858fce';
+	var pbidv3 = '7eaddbdc2604f3d87c4a794c8260910';
+        var pcode = 'UzM2oyOhgtCq_z4DZDUqQadISueB';
+	var platformv3 = "flash";
+	
+	if(ie.TrueVersion != 0 && ie.TrueVersion <=10)
+	{
+		var markup = "<scr" + "ipt src='//player.ooyala.com/v3/"+pbidv3+"?platform="+platformv3+"'/></scr" + "ipt>";
+		pbid=pbidv3;
+		document.write(markup);
+		
+	}
+	else
+	{
+		var markup = "<scr" + "ipt src='//player.ooyala.com/core/"+pbid+"'/></scr" + "ipt>";
+		document.write(markup);
+
+	}
+
+
+	var playerParam = {
+                  "pcode": pcode,
+                  "playerBrandingId": pbid,
+                };
+
+	window.onload = function(e){
+                OO.ready(function() {
+		  var ec = "ZlM2VyYjE60L1he2pem_qdyCDHWtf6_u";
+        	  var ec1 = 'FlbjBsYjE66C2XRiXanZ8dBA3LBJhtio';
+		  var ec2='Y5MjVxYjE6qUX3156G0WdWWvGrw9E9pW';
+                  window.pp = OO.Player.create('container', ec, playerParam);
+                  //window.pp = OO.Player.create('container1', ec1, playerParam);
+                  //window.pp = OO.Player.create('container2', ec2, playerParam);
+                  //window.pp = OO.Player.create('container3', ec2, playerParam);
+                });
+
+	}
+
+})();
+
+
+
+
+
+</script>
+
+</head>
+<body>
+<h2>Iframe-VOD1</h2>
+<div id="container" style="max-width:280px;max-height:160px"></div>
+<h2>Iframe-VOD2</h2>
+<div id="container1" style="max-width:280px;max-height:160px"></div>
+<h2>LIVE</h2>
+<div id="container2" style="max-width:280px;max-height:160px"></div>
+<h2>LIVE</h2>
+<div id="container3" style="max-width:280px;max-height:160px"></div>
+</body>
