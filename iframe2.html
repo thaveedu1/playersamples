@@ -156,7 +156,8 @@
             }
             else {
                 function onCreate(player) {
-                    player.mb.subscribe("*", 'forced_volume_color', function (eventName) {
+                    player.mb.subscribe(OO.EVENTS.PLAYBACK_READY, 'forced_volume_color', function (eventName) {
+			console.log(player);		
                         //$( '.oo-volume-bar' ).removeAttr( 'style' );
                         //$( '.oo-volume-bar.oo-on' ).attr('style','background-color:#ffffff');
                         //$( '.oo-player-container' ).attr('style','min-width:280px');
@@ -189,10 +190,13 @@
 
                 // Parse standard Ooyala player runtime options
                 var queryTokens = queryParams.split(/[\?\&]/);
+      			console.log(queryTokens);
                 for (var i = 0; i < queryTokens.length; i++) {
                     try {
+      			console.log(queryTokens[i]);
                         var match = queryTokens[i].match(/^options\[([^\]]+)\]=(.+)/);
                         if (match) {
+      			    console.log(match);
                             var currentLevel = playerParam;
                             var keySplits = match[1].split(".");
                             while (keySplits.length > 1) {
@@ -220,6 +224,7 @@
                         throw ("Exception: Invalid query parameter");
                     }
                 }
+		console.log(playerParam);
                 window.onload = function (e) {
                     OO.ready(function () {
                         window.pp = OO.Player.create('container', ec, playerParam);

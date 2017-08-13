@@ -180,7 +180,8 @@ var ie = IeVersion();
 	}
 	else
 	{
-		function onCreate(player) { player.mb.subscribe("*" , 'forced_volume_color', function(eventName) { 
+		function onCreate(player) { player.mb.subscribe(OO.EVENTS.PLAYBACK_READY , 'override_player_defaults', function(eventName) { 
+			console.log(player);		
 		//$( '.oo-volume-bar' ).removeAttr( 'style' );
 		//$( '.oo-volume-bar.oo-on' ).attr('style','background-color:#ffffff');
 		//$( '.oo-player-container' ).attr('style','min-width:280px');
