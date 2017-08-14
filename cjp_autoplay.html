@@ -1,18 +1,6 @@
 <!DOCTYPE html>
 <html>
 	<head>
-<style>
-
-.oo-volume-bar{
-
-background-color:red !important;
-height:17px !important;
-}
-.oo-volume-bar.oo-on{
-background-color:green !important;
-}
-
-</style>
 
 		<meta charset="utf-8">
 		<script>
@@ -31,14 +19,9 @@ var pbid = 'aa4c97a1795640648a033c3f89858fce';
 var ec = 'FlbjBsYjE66C2XRiXanZ8dBA3LBJhtio';
 var pcode = 'UzM2oyOhgtCq_z4DZDUqQadISueB';
 
-	var markup = "<scr" + "ipt src='//player.ooyala.com/core/"+pbid+"'/></scr" + "ipt>";
-	document.write(markup);
+var markup = "<scr" + "ipt src='//player.ooyala.com/core/"+pbid+"'/></scr" + "ipt>";
+document.write(markup);
 
-
-		</script>
-
-
-		<script>
 
 function onCreate(player) { 
 
@@ -46,8 +29,8 @@ function onCreate(player) {
 	flag={};
 	flag[elementId]=false;
 	player.mb.subscribe(OO.EVENTS.VC_VIDEO_ELEMENT_CREATED , 'addmutedAutoplay', function(eventName) {
+		if(OO.isAndroid || OO.isIos){
 		$( '#'+elementId ).find('video').each( function(){
-			console.log(this);
 			$(this).attr('muted','');
 			$(this).attr('autoplay','');
 		});
@@ -59,12 +42,14 @@ function onCreate(player) {
 			player.setVolume(0.5);
 
 		});
+		}
 	} );
-
+	
 	player.mb.subscribe(OO.EVENTS.PLAYBACK_READY , 'initiatePlay', function(eventName) {
-		console.log(flag);
-		if(flag[elementId]==true){
-		player.play();
+		if((flag[elementId]==true) && (player.getState() != OO.STATE.PLAYING)){
+			console.log(flag);
+			console.log(player.getState());
+			player.play();
 		}
 	} );
 
@@ -78,10 +63,11 @@ var playerParam = {
 	"initialVolume":0,
 	"onCreate" : window.onCreate
 };
-
-OO.ready(function() {
-	window.pp = OO.Player.create('container', ec, playerParam);
-});
+window.onload = function(e){
+	OO.ready(function() {
+		window.pp = OO.Player.create('container', ec, playerParam);
+	});
+}
 
 
 		</script>
