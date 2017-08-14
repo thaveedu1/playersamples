@@ -29,6 +29,13 @@ function onCreate(player) {
 	flag={};
 	flag[elementId]=false;
 	player.mb.subscribe(OO.EVENTS.VC_VIDEO_ELEMENT_CREATED , 'addmutedAutoplay', function(eventName) {
+		
+		if(OO.isIos){
+			$( '#'+elementId ).find('video').each( function(){
+				$(this).attr('playsinline','');
+			});
+		
+		}
 		if(OO.isAndroid || OO.isIos){
 		$( '#'+elementId ).find('video').each( function(){
 			$(this).attr('muted','');
