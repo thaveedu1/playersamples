@@ -22,9 +22,10 @@ var pcode = 'UzM2oyOhgtCq_z4DZDUqQadISueB';
 var markup = "<scr" + "ipt src='//player.ooyala.com/core/"+pbid+"'/></scr" + "ipt>";
 document.write(markup);
 
+var p={};
 
 function onCreate(player) { 
-
+	p=player;
 	elementId=(player.getElementId());
 	flag={};
 	flag[elementId]=false;
@@ -37,6 +38,7 @@ function onCreate(player) {
 		
 		}
 		if(OO.isAndroid || OO.isIos){
+			console.log("Mobile device detected , going add muted autoplay attribute");
 		$( '#'+elementId ).find('video').each( function(){
 			$(this).attr('muted','');
 			$(this).attr('autoplay','');
@@ -56,7 +58,14 @@ function onCreate(player) {
 		if((flag[elementId]==true) && (player.getState() != OO.STATE.PLAYING)){
 			console.log(flag);
 			console.log(player.getState());
-			player.play();
+			$( '#'+elementId ).find('video').each( function(){
+				console.log(this);
+			});
+			setTimeout(function(){
+				
+				player.play();
+			
+			},1000);
 		}
 	} );
 
@@ -66,7 +75,6 @@ function onCreate(player) {
 var playerParam = {
 	"pcode": pcode,
 	"playerBrandingId": pbid,
-	"autoplay":true,
 	"initialVolume":0,
 	"onCreate" : window.onCreate
 };
