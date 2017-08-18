@@ -27,7 +27,7 @@ $(document).ready(function(){
 	
 	var createVideoElm = function(parentElm,pcode,embedCode){
 	
-		var urlString="http://player.ooyala.com/sas/player_api/v2/authorization/embed_code/"+pcode+"/"+embedCode+"?device=html5&domain=joins.com"
+		var urlString="https://player.ooyala.com/sas/player_api/v2/authorization/embed_code/"+pcode+"/"+embedCode+"?device=html5&domain=joins.com"
 		$.ajax({url: urlString, success: function(result){
 			
 		var clearUrl=getStreamUrl(result,1280,'mp4');
