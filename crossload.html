@@ -17,16 +17,17 @@
 	var pcode = 'UzM2oyOhgtCq_z4DZDUqQadISueB';
 $(document).ready(function(){
 
-		createVideoElm("div1",pcode);
-		//var videoContainer = document.getElementById("div1").getElementsByTagName('video');
-        	//Ooyala.Analytics.HTML5Reporter(pcode, videoContainer);
+		createVideoElm("div1",pcode,ec);
+		var videoContainer = document.getElementById("div1").getElementsByTagName('video');
+	        videoContainer.setAttribute("data-embedId", ec);
+        	Ooyala.Analytics.HTML5Reporter(pcode, videoContainer);
 
 
 });
 	
-	var createVideoElm = function(parentElm,pcode){
+	var createVideoElm = function(parentElm,pcode,embedCode){
 	
-		var urlString="http://player.ooyala.com/sas/player_api/v2/authorization/embed_code/"+pcode+"/"+ec+"?device=html5&domain=joins.com"
+		var urlString="http://player.ooyala.com/sas/player_api/v2/authorization/embed_code/"+pcode+"/"+embedCode+"?device=html5&domain=joins.com"
 		$.ajax({url: urlString, success: function(result){
 			
 		var clearUrl=getStreamUrl(result,1280,'mp4');
